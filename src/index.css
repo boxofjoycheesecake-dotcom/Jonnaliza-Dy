@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Montserrat", sans-serif;
+
+  --color-navy: #0d1b2a;
+  --color-navy-light: #16263b;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8c97a;
+  --color-cream: #f8f4ef;
+  --color-cream-deep: #f0eae0;
+  --color-charcoal: #2c3e50;
+  --color-warm-gray: #6b7280;
+  --color-accent-teal: #1a7a6e;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-cream text-charcoal antialiased min-h-screen;
+    background-color: #f8f4ef; /* Match --color-cream */
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+@layer utilities {
+  @media print {
+    @page {
+      size: 8.5in 14in;
+      margin: 0;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      width: 8.5in !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .print\:hidden {
+      display: none !important;
+    }
+    /* Ensure the main container expands properly and transitions don't interfere */
+    .motion-div {
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+}
