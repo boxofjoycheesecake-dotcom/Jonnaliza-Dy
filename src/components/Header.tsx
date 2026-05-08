@@ -94,6 +94,7 @@ export const Header = () => {
             <ContactItem icon={<Phone size={14} />} text="09186496828" />
             <ContactItem icon={<Phone size={14} />} text="0288514825" />
             <ContactItem icon={<Mail size={14} />} text="jonnady9898@gmail.com" />
+            <ContactItem icon={<Mail size={14} />} text="jonnalizady@velocityai.com.ph" />
             <ContactItem icon={<Globe size={14} />} text="velocityai.com.ph" />
             <ContactItem icon={<MapPin size={14} />} text="Quezon City / Bulacan, PH" />
           </motion.div>
