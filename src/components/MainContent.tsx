@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Briefcase, GraduationCap, Award, Rocket } from 'lucide-react';
+import { Briefcase, GraduationCap, Award, Rocket, ExternalLink, FileText } from 'lucide-react';
+import { db } from '../lib/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 export const MainContent = () => {
+  const [certifications, setCertifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'siteConfigs', 'global'), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.certifications) {
+          setCertifications(data.certifications);
+        }
+      }
+    });
+    return () => unsub();
+  }, []);
+
   return (
     <div className="flex-grow p-10 md:p-16 space-y-20 bg-cream">
       {/* Profile */}
@@ -46,6 +62,18 @@ export const MainContent = () => {
           />
         </div>
       </section>
+
+      {/* Certifications & Achievements */}
+      {certifications.length > 0 && (
+        <section>
+          <SectionTitle icon={<Award size={18} />} title="Certifications & Achievements" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certifications.map((cert, index) => (
+              <CertCard key={index} {...cert} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Employment */}
       <section>
@@ -156,6 +184,7 @@ export const MainContent = () => {
   );
 };
 
+
 const SectionTitle = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
   <div className="flex items-center gap-4 mb-8">
     <span className="bg-navy text-gold p-2 rounded-lg">{icon}</span>
@@ -179,6 +208,33 @@ const BizCard = ({ role, company, period, description, isActive }: { role: strin
     <h4 className="font-bold text-navy text-base group-hover:text-gold transition-colors">{role}</h4>
     <div className="text-[10px] text-gold uppercase font-bold tracking-widest mt-1 mb-3">{company} • {period}</div>
     <p className="text-xs leading-relaxed text-charcoal/70">{description}</p>
+  </motion.div>
+);
+
+const CertCard = ({ title, issuer, date, url }: { title: string; issuer: string; date?: string; url?: string }) => (
+  <motion.div 
+    whileHover={{ y: -2 }}
+    className="bg-white border-l-4 border-gold p-4 rounded-r-xl shadow-sm hover:shadow-md transition-all relative group"
+  >
+    <div className="flex justify-between items-start gap-4">
+      <div>
+        <h4 className="font-bold text-navy text-sm">{title}</h4>
+        <p className="text-[10px] text-gold uppercase font-bold tracking-widest mt-0.5">{issuer}</p>
+        {date && <p className="text-[10px] text-warm-gray mt-1">{date}</p>}
+      </div>
+      <div className="flex gap-1 print:hidden">
+        {url && (
+          <a 
+            href={url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gold hover:text-navy transition-colors p-1"
+          >
+            {url.startsWith('data:application/pdf') ? <FileText size={16} /> : <ExternalLink size={16} />}
+          </a>
+        )}
+      </div>
+    </div>
   </motion.div>
 );
 

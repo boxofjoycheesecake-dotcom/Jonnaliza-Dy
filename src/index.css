@@ -44,9 +44,19 @@
       display: none !important;
     }
     /* Ensure the main container expands properly and transitions don't interfere */
-    .motion-div {
+    .motion-div, .exporting-capture, .exporting-capture * {
       transform: none !important;
       opacity: 1 !important;
+      transition: none !important;
+      animation: none !important;
     }
   }
+}
+
+/* Also apply stability for html-to-image captures which might not trigger @media print */
+.exporting-capture, .exporting-capture * {
+  transform: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+  animation: none !important;
 }

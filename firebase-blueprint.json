@@ -1,0 +1,22 @@
+{
+  "entities": {
+    "siteConfig": {
+      "title": "Site Configuration",
+      "description": "Global settings for the portfolio site",
+      "type": "object",
+      "properties": {
+        "profileImage": {
+          "type": "string",
+          "description": "Data URL or URL for the profile image"
+        }
+      },
+      "required": ["profileImage"]
+    }
+  },
+  "firestore": {
+    "siteConfigs/global": {
+      "schema": "siteConfig",
+      "description": "The global configuration document"
+    }
+  }
+}

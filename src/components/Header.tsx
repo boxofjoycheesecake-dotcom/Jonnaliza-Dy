@@ -1,16 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { db } from '../lib/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 export const Header = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  // Load image from localStorage on mount
+  // Listen to Firestore for global profile image
   useEffect(() => {
-    const savedImage = localStorage.getItem('user_profile_image');
-    if (savedImage) {
-      setProfileImage(savedImage);
+    let unsub = () => {};
+    try {
+      unsub = onSnapshot(doc(db, 'siteConfigs', 'global'), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.profileImage) {
+            setProfileImage(data.profileImage);
+            console.log("Profile image synced from cloud");
+          }
+        } else {
+          console.log("No remote profile image found, checking local storage...");
+          const savedImage = localStorage.getItem('user_profile_image');
+          if (savedImage) {
+            setProfileImage(savedImage);
+          }
+        }
+      }, (error) => {
+        console.warn("Firestore listener error (possibly offline):", error);
+        // Fallback to local storage on error
+        const savedImage = localStorage.getItem('user_profile_image');
+        if (savedImage) {
+          setProfileImage(savedImage);
+        }
+      });
+    } catch (error) {
+      console.error("Failed to setup Firestore listener:", error);
     }
+
+    return () => unsub();
   }, []);
 
   return (
@@ -31,7 +58,9 @@ export const Header = () => {
             <img 
               src={profileImage || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"} 
               alt="Jonnaliza R. Dy"
-              className="w-full h-full rounded-full object-cover object-top"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
+              className="w-full h-full rounded-full object-cover object-top export-image"
             />
           </div>
         </motion.div>
@@ -64,7 +93,7 @@ export const Header = () => {
           >
             <ContactItem icon={<Phone size={14} />} text="09186496828" />
             <ContactItem icon={<Phone size={14} />} text="0288514825" />
-            <ContactItem icon={<Mail size={14} />} text="jonnalizady@gmail.com" />
+            <ContactItem icon={<Mail size={14} />} text="jonnady9898@gmail.com" />
             <ContactItem icon={<Globe size={14} />} text="velocityai.com.ph" />
             <ContactItem icon={<MapPin size={14} />} text="Quezon City / Bulacan, PH" />
           </motion.div>
