@@ -174,7 +174,9 @@ const SidebarSection = ({ title, children, variant = 'gold' }: { title: string; 
 );
 
 const SkillPill = ({ text, highlight, variant = 'gold' }: { text: string; highlight?: boolean; variant?: 'gold' | 'rose' }) => (
-  <span className={`text-[10px] px-3 py-2 rounded-sm transition-all duration-300 tracking-wide flex items-center justify-center text-center h-full min-h-[32px] ${
+  <motion.span 
+    whileHover={{ scale: 1.05, y: -1 }}
+    className={`text-[10px] px-3 py-2 rounded-sm transition-all duration-300 tracking-wide flex items-center justify-center text-center h-full min-h-[32px] cursor-default ${
     highlight 
     ? (variant === 'rose' 
         ? 'bg-rose-gold/15 text-rose-gold-light border border-rose-gold/30 font-bold shadow-sm shadow-rose-gold/5' 
@@ -182,11 +184,14 @@ const SkillPill = ({ text, highlight, variant = 'gold' }: { text: string; highli
     : 'bg-white/[0.04] text-white/70 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08]'
   }`}>
     {text}
-  </span>
+  </motion.span>
 );
 
 const CertItem = ({ title, issuer, date, desc, variant = 'gold' }: { title: string; issuer: string; date: string; desc?: string; variant?: 'gold' | 'rose' }) => (
-  <div className="group">
+  <motion.div 
+    whileHover={{ x: 4 }}
+    className="group cursor-default"
+  >
     <div className={`text-[11px] font-semibold text-white/90 leading-tight transition-colors ${
       variant === 'rose' ? 'group-hover:text-rose-gold' : 'group-hover:text-gold'
     }`}>{title}</div>
@@ -194,13 +199,16 @@ const CertItem = ({ title, issuer, date, desc, variant = 'gold' }: { title: stri
       variant === 'rose' ? 'text-rose-gold/80' : 'text-gold-light'
     }`}>{issuer} • {date}</div>
     {desc && <div className="text-[9px] text-white/40 mt-0.5 leading-snug italic">{desc}</div>}
-  </div>
+  </motion.div>
 );
 
 const ReferenceItem = ({ name, role, contact }: { name: string; role: string; contact: string }) => (
-  <div>
-    <div className="text-xs font-semibold text-white/90">{name}</div>
+  <motion.div 
+    whileHover={{ x: 4 }}
+    className="cursor-default group"
+  >
+    <div className="text-xs font-semibold text-white/90 group-hover:text-gold transition-colors">{name}</div>
     <div className="text-[10px] text-white/40">{role}</div>
     <div className="text-[10px] text-gold mt-1 font-medium">{contact}</div>
-  </div>
+  </motion.div>
 );

@@ -132,7 +132,7 @@ export const Header = () => {
             <ContactItem icon={<Phone size={14} />} text="0288514825" />
             <ContactItem icon={<Mail size={14} />} text="jonnady9898@gmail.com" />
             <ContactItem icon={<Mail size={14} />} text="jonnalizady@velocityai.com.ph" />
-            <ContactItem icon={<Globe size={14} />} text="velocityai.com.ph" />
+            <ContactItem icon={<Globe size={14} />} text="velocityai.com.ph" href="https://www.velocityai.com.ph/" />
             <ContactItem icon={<MapPin size={14} />} text="Quezon City / Bulacan, PH" />
           </motion.div>
         </div>
@@ -141,14 +141,32 @@ export const Header = () => {
   );
 };
 
-const ContactItem = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
-  <div className="flex items-center gap-2 text-white/60 text-xs font-medium hover:text-gold transition-all duration-300 group cursor-default">
-    <span className="text-gold group-hover:scale-125 transition-transform duration-300 flex items-center justify-center">
-      {icon}
-    </span>
-    <span className="transition-colors duration-300">{text}</span>
-  </div>
-);
+const ContactItem = ({ icon, text, href }: { icon: React.ReactNode, text: string, href?: string }) => {
+  const content = (
+    <>
+      <span className="text-white/40 group-hover:text-gold group-hover:scale-110 transition-all duration-300 flex items-center justify-center">
+        {icon}
+      </span>
+      <span className="transition-colors duration-300">{text}</span>
+    </>
+  );
+
+  const className = "flex items-center gap-2 text-white/60 text-xs font-medium hover:text-gold transition-all duration-300 group cursor-pointer";
+
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className={className.replace('cursor-pointer', 'cursor-default')}>
+      {content}
+    </div>
+  );
+};
 
 const SocialIcon = ({ href, icon, label, variant = 'gold' }: { href: string; icon: React.ReactNode; label: string; variant?: 'gold' | 'rose' }) => (
   <motion.a 
