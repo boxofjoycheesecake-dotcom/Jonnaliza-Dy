@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { Phone, Mail, Globe, MapPin, Facebook } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -81,8 +81,17 @@ export const Header = () => {
             className="flex flex-wrap gap-2.5 mb-8"
           >
             <span className="bg-gold text-navy px-3.5 py-1.5 text-[10px] uppercase font-bold tracking-widest rounded-sm">Digital Marketing Strategist</span>
-            <span className="border border-gold/50 text-gold px-3.5 py-1.5 text-[10px] uppercase font-bold tracking-widest rounded-sm">GHL System Builder</span>
+            <span className="border border-gold/50 text-gold px-3.5 py-1.5 text-[10px] uppercase font-bold tracking-widest rounded-sm">Workflow Automation Specialist</span>
             <span className="border border-gold/50 text-gold px-3.5 py-1.5 text-[10px] uppercase font-bold tracking-widest rounded-sm">Entrepreneur</span>
+            <a 
+              href="https://www.facebook.com/JoyLaneCollective/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-navy border border-gold/50 text-gold px-3.5 py-1.5 text-[10px] uppercase font-bold tracking-widest rounded-sm flex items-center gap-2 hover:bg-gold hover:text-navy transition-all duration-300 print:hidden"
+            >
+              <Facebook size={12} />
+              JoyLaneCollective
+            </a>
           </motion.div>
 
           <motion.div 

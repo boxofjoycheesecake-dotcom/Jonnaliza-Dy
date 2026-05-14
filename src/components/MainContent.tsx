@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Briefcase, GraduationCap, Award, Rocket, ExternalLink, FileText } from 'lucide-react';
+import { Briefcase, GraduationCap, Award, Rocket, ExternalLink, FileText, Facebook, Globe, Layout, Zap } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -39,6 +39,7 @@ export const MainContent = () => {
             period="Feb 2026 – Present"
             description="Co-founded a PH-based AI automation agency. Leads client relations, meta ads, and GHL system builds for diverse client accounts."
             isActive
+            facebookUrl="https://www.facebook.com/profile.php?id=61583771470210"
           />
           <BizCard 
             role="Owner & Fragrance Creator"
@@ -53,13 +54,50 @@ export const MainContent = () => {
             period="Present"
             description="Artisan cheesecake brand. Manages product development, fulfillment, Messenger automation, and Meta Ads across multiple locations."
             isActive
+            facebookUrl="https://www.facebook.com/boxofjoycheesecakesandmore"
           />
           <BizCard 
             role="Co-Owner & Operations Lead"
             company="G! Salon Nails & Barbers"
             period="Jun 2025 – Feb 2026"
             description="Full operations oversight: HR management, inventory control, and salon marketing strategy."
+            facebookUrl="https://www.facebook.com/profile.php?id=61564981222711"
           />
+        </div>
+
+        {/* Pending Client Projects Subsection */}
+        <div className="mt-12">
+          <h3 className="text-[10px] uppercase font-black tracking-[3px] text-gold mb-6 flex items-center gap-3">
+            <Zap size={14} />
+            Strategic Project Proposals & Pipeline
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ProjectCard 
+              title="WORLD TRAVELER - Probono Account"
+              status="Pipeline"
+              links={[
+                { label: "Live App", url: "https://ais-pre-sf444njoo7x4xfn3j4t6qj-108363223910.asia-east1.run.app", icon: <Globe size={12} /> },
+                { label: "AI Proposal", url: "https://gamma.app/docs/WORLD-TRAVELLER-iiu3tz7mlyxh8is", icon: <FileText size={12} /> }
+              ]}
+            />
+            <ProjectCard 
+              title="Victory Global - Era of Growth"
+              status="Proposed"
+              links={[
+                { label: "VG Briefcase", url: "https://ais-pre-b6u7yc7ke7qvlgu45kxytq-210636523519.asia-southeast1.run.app", icon: <Layout size={12} /> },
+                { label: "Main Proposal", url: "https://gamma.app/docs/Powering-Victory-Globals-Next-Era-of-Growth-5fhh5p6ykdd6y6g?mode=doc", icon: <FileText size={12} /> },
+                { label: "AI Academy", url: "https://gamma.app/docs/Social-Media-Online-Automation-Introduction-to-AI-The-Briefcase-o19j0nm6f3i3ttn?mode=doc", icon: <Zap size={12} /> }
+              ]}
+            />
+            <ProjectCard 
+              title="Saint Peter Funeral Service"
+              status="Proposed"
+              links={[
+                { label: "SP Briefcase", url: "https://ais-pre-u5lqgj36v74rx6yxwoq2oo-210636523519.asia-southeast1.run.app", icon: <Layout size={12} /> },
+                { label: "Next 50 Years Proposal", url: "https://gamma.app/docs/The-Next-50-Years-of-Malasakit-Engineered-by-AI-it64ty7gddm8k85", icon: <FileText size={12} /> }
+              ]}
+            />
+          </div>
         </div>
       </section>
 
@@ -185,6 +223,32 @@ export const MainContent = () => {
 };
 
 
+const ProjectCard = ({ title, status, links }: { title: string; status: string; links: { label: string; url: string; icon: React.ReactNode }[] }) => (
+  <motion.div 
+    whileHover={{ y: -2 }}
+    className="bg-navy/5 border-l-2 border-gold/30 p-5 rounded-r-xl"
+  >
+    <div className="flex justify-between items-start mb-3">
+      <h4 className="font-bold text-navy text-[11px] uppercase tracking-tight">{title}</h4>
+      <span className="text-[9px] bg-gold/10 text-gold px-2 py-0.5 rounded font-bold uppercase tracking-widest">{status}</span>
+    </div>
+    <div className="flex flex-wrap gap-2">
+      {links.map((link, idx) => (
+        <a 
+          key={idx}
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-[9px] text-charcoal/70 hover:text-gold transition-colors font-bold uppercase tracking-wider bg-white px-2.5 py-1.5 rounded shadow-sm border border-gold/5 group"
+        >
+          <span className="text-gold group-hover:scale-110 transition-transform">{link.icon}</span>
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </motion.div>
+);
+
 const SectionTitle = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
   <div className="flex items-center gap-4 mb-8">
     <span className="bg-navy text-gold p-2 rounded-lg">{icon}</span>
@@ -195,18 +259,33 @@ const SectionTitle = ({ icon, title }: { icon: React.ReactNode; title: string })
   </div>
 );
 
-const BizCard = ({ role, company, period, description, isActive }: { role: string; company: string; period: string; description: string; isActive?: boolean }) => (
+const BizCard = ({ role, company, period, description, isActive, facebookUrl }: { role: string; company: string; period: string; description: string; isActive?: boolean; facebookUrl?: string }) => (
   <motion.div 
     whileHover={{ y: -4 }}
     className="bg-white border border-gold/10 p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative group"
   >
-    {isActive && (
-      <span className="absolute top-4 right-4 bg-accent-teal text-white text-[8px] px-2 py-1 uppercase font-bold rounded-full tracking-wider">
-        Active
-      </span>
-    )}
-    <h4 className="font-bold text-navy text-base group-hover:text-gold transition-colors">{role}</h4>
-    <div className="text-[10px] text-gold uppercase font-bold tracking-widest mt-1 mb-3">{company} • {period}</div>
+    <div className="flex justify-between items-start mb-1">
+      <h4 className="font-bold text-navy text-base group-hover:text-gold transition-colors">{role}</h4>
+      <div className="flex gap-2">
+        {isActive && (
+          <span className="bg-accent-teal text-white text-[8px] px-2 py-1 uppercase font-bold rounded-full tracking-wider h-fit">
+            Active
+          </span>
+        )}
+        {facebookUrl && (
+          <a 
+            href={facebookUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gold hover:text-navy transition-colors print:hidden"
+            title="Visit Facebook Page"
+          >
+            <Facebook size={16} />
+          </a>
+        )}
+      </div>
+    </div>
+    <div className="text-[10px] text-gold uppercase font-bold tracking-widest mb-3">{company} • {period}</div>
     <p className="text-xs leading-relaxed text-charcoal/70">{description}</p>
   </motion.div>
 );
