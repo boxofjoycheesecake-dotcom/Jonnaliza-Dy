@@ -5,11 +5,16 @@
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Montserrat", sans-serif;
 
-  --color-navy: #0d1b2a;
-  --color-navy-light: #16263b;
-  --color-gold: #c9a84c;
-  --color-gold-light: #e8c97a;
-  --color-cream: #f8f4ef;
+  --color-navy: #050a14;
+  --color-navy-light: #0b1426;
+  --color-gold: #c5a059;
+  --color-gold-light: #dfc18b;
+  --color-gold-deep: #8b6b32;
+  --color-rose-gold: #c48e8e;
+  --color-rose-gold-light: #e5b0b4;
+  --color-emerald: #14453d;
+  --color-blush: #faf3f3;
+  --color-cream: #faf7f2;
   --color-cream-deep: #f0eae0;
   --color-charcoal: #2c3e50;
   --color-warm-gray: #6b7280;

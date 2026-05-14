@@ -40,10 +40,11 @@ export default function App() {
       const dataUrl = await toJpeg(element, {
         backgroundColor: '#f8f5f2',
         filter: filter,
-        quality: 0.8,
-        pixelRatio: 1.5, // Reduced from 3 to save space while keeping it sharp
+        quality: 0.9,
+        pixelRatio: 2.0,
         width: originalWidth,
         height: elementHeight,
+        cacheBust: true, // Ensure fresh capture
       });
 
       const pdfWidth = 595.28; // A4 width in points
@@ -53,11 +54,12 @@ export default function App() {
       const pdf = new jsPDF({
         orientation: 'p',
         unit: 'pt',
-        format: [pdfWidth, pdfHeight]
+        format: [pdfWidth, pdfHeight],
+        compress: true // Enable internal PDF compression
       });
 
-      // Use JPEG compression in the PDF itself
-      pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'MEDIUM');
+      // Use JPEG compression in the PDF itself with SLOW setting for better compression ratio
+      pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'SLOW');
       pdf.save('Jonnaliza_Dy_Resume.pdf');
     } catch (error) {
       console.error('Export failed', error);
@@ -119,6 +121,32 @@ export default function App() {
           )}
         </button>
       </div>
+
+      <AnimatePresence>
+        {isExporting && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/40 backdrop-blur-sm pointer-events-none"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4 border border-gold/20"
+            >
+              <div className="relative">
+                <div className="w-12 h-12 border-4 border-gold/20 border-t-gold rounded-full animate-spin" />
+                <Download className="absolute inset-0 m-auto text-gold animate-pulse" size={20} />
+              </div>
+              <div className="text-center">
+                <p className="text-navy font-bold text-sm uppercase tracking-widest">Generating PDF</p>
+                <p className="text-[10px] text-charcoal/60 mt-1 uppercase tracking-tight">Optimizing for high-quality under 2MB...</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="max-w-[1400px] mx-auto shadow-2xl print:shadow-none print:max-w-none print:w-full relative">
         <motion.div 

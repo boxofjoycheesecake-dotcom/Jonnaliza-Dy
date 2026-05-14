@@ -6,16 +6,17 @@ export const Sidebar = () => {
     <aside className="bg-navy text-white/80 p-8 space-y-16 lg:w-80 flex-shrink-0 relative overflow-hidden">
       {/* Subtle decorative element for sidebar */}
       <div className="absolute -left-10 top-1/4 w-32 h-32 bg-gold/5 rounded-full blur-3xl" />
+      <div className="absolute -right-10 bottom-1/4 w-24 h-24 bg-rose-gold/5 rounded-full blur-3xl opacity-50" />
       
-      <SidebarSection title="GoHighLevel Specialization">
+      <SidebarSection title="GoHighLevel Specialization" variant="rose">
         <div className="grid grid-cols-1 gap-y-3">
-          <SkillPill text="GoHighLevel CRM" highlight />
-          <SkillPill text="Funnel Setup" highlight />
-          <SkillPill text="Automation Workflows" highlight />
-          <SkillPill text="Client Onboarding" highlight />
-          <SkillPill text="Pipeline Management" highlight />
-          <SkillPill text="Contact Management" highlight />
-          <SkillPill text="Email/SMS Campaigns" highlight />
+          <SkillPill text="GoHighLevel CRM" highlight variant="rose" />
+          <SkillPill text="Funnel Setup" highlight variant="gold" />
+          <SkillPill text="Automation Workflows" highlight variant="rose" />
+          <SkillPill text="Client Onboarding" highlight variant="gold" />
+          <SkillPill text="Pipeline Management" highlight variant="rose" />
+          <SkillPill text="Contact Management" highlight variant="gold" />
+          <SkillPill text="Email/SMS Campaigns" highlight variant="rose" />
         </div>
       </SidebarSection>
 
@@ -62,24 +63,28 @@ export const Sidebar = () => {
         </div>
       </SidebarSection>
 
-      <SidebarSection title="Experience & Training">
+      <SidebarSection title="Experience & Training" variant="rose">
         <div className="space-y-8">
           <CertItem 
             title="GHL System Builder — Premium Role" 
             issuer="Go High Level Champs Program" 
             date="2026" 
+            desc="Ongoing training and expert certifications"
+            variant="rose"
           />
           <CertItem 
             title="Real Estate Virtual Assistant" 
             issuer="Freelance Academy" 
             date="2026" 
             desc="Admin tasks, SMM, Listing Management, CRM applications"
+            variant="gold"
           />
           <CertItem 
             title="VA Social Media Marketing" 
             issuer="Freelance Academy" 
             date="2026" 
             desc="Algorithms, Content, Lead Gen, SEO, WordPress, Video Editing"
+            variant="rose"
           />
           <CertItem 
             title="Live GoHighLevel Workshop" 
@@ -152,34 +157,42 @@ export const Sidebar = () => {
   );
 };
 
-const SidebarSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const SidebarSection = ({ title, children, variant = 'gold' }: { title: string; children: React.ReactNode; variant?: 'gold' | 'rose' }) => (
   <motion.div 
     initial={{ opacity: 0, x: -10 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
     className="relative z-10"
   >
-    <h3 className="text-gold text-[9px] uppercase font-bold tracking-[4px] mb-5 pb-1.5 border-b border-gold/20 flex items-center justify-between">
+    <h3 className={`text-[9px] uppercase font-bold tracking-[4px] mb-5 pb-1.5 border-b flex items-center justify-between ${
+      variant === 'rose' ? 'text-rose-gold border-rose-gold/20' : 'text-gold border-gold/20'
+    }`}>
       {title}
     </h3>
     {children}
   </motion.div>
 );
 
-const SkillPill = ({ text, highlight }: { text: string; highlight?: boolean }) => (
+const SkillPill = ({ text, highlight, variant = 'gold' }: { text: string; highlight?: boolean; variant?: 'gold' | 'rose' }) => (
   <span className={`text-[10px] px-3 py-2 rounded-sm transition-all duration-300 tracking-wide flex items-center justify-center text-center h-full min-h-[32px] ${
     highlight 
-    ? 'bg-gold/15 text-gold-light border border-gold/30 font-bold shadow-sm shadow-gold/5' 
-    : 'bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/30 hover:bg-white/[0.08]'
+    ? (variant === 'rose' 
+        ? 'bg-rose-gold/15 text-rose-gold-light border border-rose-gold/30 font-bold shadow-sm shadow-rose-gold/5' 
+        : 'bg-gold/15 text-gold-light border border-gold/30 font-bold shadow-sm shadow-gold/5')
+    : 'bg-white/[0.04] text-white/70 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08]'
   }`}>
     {text}
   </span>
 );
 
-const CertItem = ({ title, issuer, date, desc }: { title: string; issuer: string; date: string; desc?: string }) => (
+const CertItem = ({ title, issuer, date, desc, variant = 'gold' }: { title: string; issuer: string; date: string; desc?: string; variant?: 'gold' | 'rose' }) => (
   <div className="group">
-    <div className="text-[11px] font-semibold text-white/90 leading-tight group-hover:text-gold transition-colors">{title}</div>
-    <div className="text-[10px] text-gold/80 mt-1 font-medium">{issuer} • {date}</div>
+    <div className={`text-[11px] font-semibold text-white/90 leading-tight transition-colors ${
+      variant === 'rose' ? 'group-hover:text-rose-gold' : 'group-hover:text-gold'
+    }`}>{title}</div>
+    <div className={`text-[10px] mt-1 font-medium ${
+      variant === 'rose' ? 'text-rose-gold/80' : 'text-gold-light'
+    }`}>{issuer} • {date}</div>
     {desc && <div className="text-[9px] text-white/40 mt-0.5 leading-snug italic">{desc}</div>}
   </div>
 );
